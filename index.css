@@ -1,0 +1,317 @@
+/* Estilos generales (para pantallas más grandes) */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.grid-contenedor {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr; /* 4 columnas */
+    grid-template-rows: auto; /* Altura automática */
+    grid-template-areas:
+        "area1 area1 area1 area1"
+        "area6 area6 area6 area6"
+        "area2 area3 area3 area4"
+        "area2 area3 area3 area4"
+        "area2 area3 area3 area4"
+        "area2 area3 area3 area4"
+        "area5 area5 area5 area5";
+}
+
+.grid-item1 {
+    background: black;
+    color: white;
+    border: black 2px solid;
+    grid-area: area1;
+    text-align: left;
+    
+}
+
+.grid-item2 {
+    background: whitesmoke;
+    color: black;
+    border: black 2px solid;
+    grid-area: area2;
+    padding: 20px;
+}
+
+.grid-item3 {
+    background: white;
+    color: black;
+    border: black 2px solid;
+    grid-area: area3;
+    font-size: 30px;
+    padding: 1px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.grid-item4 {
+    background: whitesmoke;
+    color: black;
+    border: black 2px solid;
+    grid-area: area4;
+    font-size: 30px;
+    padding: 1px;
+    text-align: center;
+}
+
+.grid-item5 {
+    background-color: black;
+    border: black 2px solid;
+    grid-area: area5;
+    align-content: center;
+}
+
+.grid-item6 {
+    background: white;
+    color: white;
+    text-align: center;
+    border: black 2px solid;
+    grid-area: area6;
+    align-content: center;
+    font-size: 30px;
+    text-align: left;
+    display: flex;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.logo-della {
+    font-size: 70px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin-left: 4%;
+}
+
+nav.principal ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: auto;
+    
+}
+
+nav.principal ul li a {
+    display: block;
+    padding: 1rem;
+    text-decoration: none;
+    color: black;
+    width: auto;
+}
+
+nav.principal ul li a:hover {
+    background-color: black;
+    color: white;
+}
+
+nav.principal ul li ul {
+    display: none;
+    position: absolute;
+}
+
+nav.principal ul li a:hover + ul,
+nav.principal ul li ul:hover {
+    display: block;
+    color: white;
+    background-color: white;
+    width: 109px;
+    height: 70px;
+    align-content: center;
+    text-align: center;
+}
+
+.noticias {
+    background-color: rgb(226, 226, 226);
+    width: 700px;
+    height: 400px;
+    border: black 2px solid;
+    text-align: center;
+}
+
+.enlace {
+    display: block;
+}
+
+table,
+td {
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+    border-collapse: collapse;
+    text-align: center;
+    color: black;
+}
+
+.nombre {
+    width: 200px;
+}
+
+.producto {
+    width: 200px;
+}
+
+.albumes {
+    text-align: left;
+}
+
+.lista-albumes {
+    list-style: square;
+}
+
+.rrss {
+    display: flex;
+    align-items: end;
+    width: 25%;
+    float: right;
+}
+
+.bloque {
+    display: flex;
+}
+
+.foto-redes {
+    margin-right: 20px;
+}
+
+.creditos {
+    align-content: center;
+    text-align: center;
+    color: white;
+    font-size: 30px;
+}
+
+/* Media Queries para Responsive Design */
+
+/* Para pantallas más pequeñas (móviles) */
+@media screen and (max-width: 768px) {
+    .grid-contenedor {
+        display: grid;
+        grid-template-columns: 1fr; /* Una sola columna */
+        grid-template-rows: auto; /* Altura automática para todas las filas */
+        grid-template-areas:
+            "area1"
+            "area6"
+            "area2"
+            "area3"
+            "area4"
+            "area5";
+        gap: 20px; /* Mayor espacio entre elementos */
+    }
+
+    .grid-item1,
+    .grid-item2,
+    .grid-item3,
+    .grid-item4,
+    .grid-item5,
+    .grid-item6 {
+        border: black 1px solid;
+        padding: 15px; /* Mayor relleno */
+    }
+
+    .grid-item1 {
+        text-align: center;
+    }
+
+    nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logo-della {
+        font-size: 40px;
+    }
+
+    nav.principal ul {
+        flex-direction: column;
+        width: 100%;
+        padding: 0;
+    }
+
+    nav.principal li {
+        margin: 10px 0; /* Mayor margen */
+    }
+
+    .grid-item2 table {
+        display: block;
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    .grid-item2 td,
+    .grid-item2 th {
+        padding: 10px; /* Mayor relleno en la tabla */
+        font-size: 16px; /* Mayor fuente en la tabla */
+    }
+
+    .grid-item3 {
+        font-size: 18px; /* Mayor fuente en noticias */
+    }
+
+    .noticias {
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px; /* Mayor margen */
+    }
+
+    .noticias video,
+    .noticias iframe {
+        width: 100%;
+        height: auto;
+    }
+
+    .grid-item4 .albumes {
+        text-align: left;
+        font-size: 18px; /* Mayor fuente en albumes */
+    }
+
+    .rrss {
+        float: none;
+        justify-content: center;
+        margin-top: 20px; /* Mayor margen */
+    }
+
+    .foto-redes {
+        margin: 10px; /* Mayor margen */
+    }
+}
+
+/* Para tablets (opcional) */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .grid-contenedor {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "area1"
+            "area6"
+            "area2"
+            "area3"
+            "area4"
+            "area5";
+    }
+
+    .grid-item1 {
+        text-align: center;
+    }
+
+    nav {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    nav.principal ul {
+        width: 100%;
+        justify-content: center;
+    }
+
+    nav.principal li {
+        margin: 0 10px;
+    }
+}
