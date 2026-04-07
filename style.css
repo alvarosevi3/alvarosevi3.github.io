@@ -1,0 +1,357 @@
+/* --- Estilos Generales --- */
+:root {
+    --bg-color: #f0efe8;
+    /* Color de fondo claro de las imágenes */
+    --header-bg: #fff;
+    --text-color: #000;
+    --primary-color: #d1b6ff;
+    /* Color lila de la pestaña */
+    --orange-line: #f47d4e;
+
+    /* Colores para las pestañas de los folders */
+    --folder-lila: #d1b6ff;
+    --folder-verde: #c6e7a2;
+    --folder-azul: #add8e6;
+    --folder-rojo: #ffb6c1;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* --- 1. Estilos del Encabezado (Main Header) --- */
+.main-header {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding: 1rem 2rem;
+    position: fixed;
+    /* Esto lo hace fijo */
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--text-color);
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-link {
+    font-weight: bold;
+    color: #555;
+    position: relative;
+    padding-bottom: 0.2rem;
+}
+
+.nav-link:hover {
+    color: var(--primary-color);
+}
+
+.nav-link.active {
+    color: var(--primary-color);
+}
+
+/* La línea naranja debajo del enlace activo */
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--orange-line);
+    border-radius: 2px;
+}
+
+.header-icons {
+    display: flex;
+    gap: 1rem;
+    font-size: 1.2rem;
+}
+
+.header-icon {
+    font-weight: bold;
+    color: #333;
+}
+
+/* --- 2. Estilos del Cartel "Hello" (Hero Section) --- */
+.hero-section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 80px;
+    /* Margen superior para el encabezado fijo */
+    margin-bottom: 40px;
+}
+
+.name-tag {
+    background-color: #ffcc4d;
+    /* Color amarillo de fondo */
+    height: 700px;
+    width: 1300px;
+    padding: 2.5rem;
+    border-radius: 15px;
+    text-align: center;
+    border: 8px solid #000;
+    box-shadow: 10px 10px 0px #000;
+    /* Efecto de sombra 3D */
+}
+
+.name-tag-header {
+    margin-bottom: 1rem;
+}
+
+.hello-text {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: -0.2rem;
+}
+
+.name-is-text {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.name-tag-body {
+    background-color: #f7f6f1;
+    /* Fondo claro interior */
+    padding: 3rem;
+    border-radius: 10px;
+    border: 3px solid #000;
+}
+
+.my-name {
+    font-size: 10rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.1;
+    color: var(--text-color);
+}
+
+/* --- 3. Estilos de las Secciones Folder --- */
+.folder-section {
+    padding: 40px 20px;
+    max-width: 2000px;
+    margin: 0 auto 30px auto;
+}
+
+.folder-header {
+    background-color: var(--text-color);
+    /* Fondo negro para la pestaña */
+    color: var(--text-color);
+    width: 180px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border: 2px solid var(--text-color);
+    position: relative;
+    top: 2px;
+    /* Pequeño ajuste para que encaje con el cuerpo */
+}
+
+.folder-icon {
+    font-size: 1.1rem;
+    margin-right: 0.8rem;
+}
+
+.folder-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Colores de las pestañas (folder-header) */
+.color-purple .folder-header {
+    background-color: var(--folder-lila);
+}
+
+.color-green .folder-header {
+    background-color: var(--folder-verde);
+}
+
+.color-blue .folder-header {
+    background-color: var(--folder-azul);
+}
+
+.color-red .folder-header {
+    background-color: var(--folder-rojo);
+}
+
+/* Cuerpo del folder */
+.folder-body {
+    background-color: #fefefe;
+    padding: 2rem;
+    border-radius: 0 10px 10px 10px;
+    border: 2px solid #000;
+    border-top-width: 3px;
+    
+    /* Añadimos esto para asegurar que el contenido interno se centre */
+    display: flex;
+    justify-content: center; 
+}
+
+/* Ajustes para la pestaña del folder (folder-header) */
+.folder-header {
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border: 2px solid var(--text-color);
+    border-bottom: none;
+}
+
+/* Estilos específicos para cada sección folder por color */
+.color-purple {}
+
+.color-green {}
+
+.color-blue {}
+
+.color-red {}
+
+/* Esto aplica el color de fondo a la pestaña de cada folder */
+#about .folder-header {
+    background-color: var(--folder-lila);
+}
+
+#skills .folder-header {
+    background-color: var(--folder-verde);
+}
+
+#projects .folder-header {
+    background-color: var(--folder-azul);
+}
+
+#contact .folder-header {
+    background-color: var(--folder-rojo);
+}
+
+/* --- Responsive (Para móviles) --- */
+@media (max-width: 600px) {
+    .name-tag {
+        width: 100%;
+        max-width: 350px;
+        padding: 1.5rem;
+    }
+
+    .my-name {
+        font-size: 2.2rem;
+    }
+
+    .main-header {
+        flex-direction: column;
+        padding: 0.5rem 1rem;
+    }
+
+    .nav-links {
+        gap: 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .header-icons {
+        margin-top: 0.5rem;
+    }
+
+    .hero-section {
+        height: auto;
+        padding: 100px 1rem 40px;
+    }
+}
+@media (max-width: 950px) {
+    .skills-grid {
+        /* En pantallas menores a 950px, deja que el navegador decida cuántas caben */
+        grid-template-columns: repeat(auto-fit, 160px);
+        max-width: 100%;
+    }
+}
+
+/* Contenedor principal */
+.skills-grid {
+    display: grid;
+    /* 1. Forzamos un máximo de 5 columnas */
+    grid-template-columns: repeat(auto-fit, 160px);
+    
+    /* 2. ESTA ES LA CLAVE: Centra las tarjetas dentro de su fila */
+    justify-content: center;
+    
+    /* 3. Centra el contenido dentro de cada tarjeta */
+    justify-items: center;
+    
+    gap: 25px;
+    
+    /* 4. Limitamos el ancho para que la sexta tarjeta baje sí o sí */
+    /* (5 tarjetas * 160px) + (4 huecos * 25px) = 900px aproximadamente */
+    max-width: 950px;
+    
+    /* 5. Centra el contenedor completo dentro del folder blanco */
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+/* Tarjeta con dimensiones bloqueadas */
+.skill-card {
+    background-color: #ffcc4d;
+    border: 3px solid #000; /* Borde un poco más grueso para que resalte */
+    border-radius: 4px; /* Menos redondeado para parecerse más a la imagen */
+    
+    /* Fijamos el tamaño de la tarjeta */
+    width: 160px;
+    height: 160px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    box-shadow: 6px 6px 0px #000;
+    transition: all 0.2s ease;
+}
+
+/* Imagen dentro de la tarjeta */
+.skill-icon-container {
+    width: 80px;  /* Un poco más grande para que luzca el logo */
+    height: 80px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.skill-img {
+    max-width: 100%;
+    max-height: 100%;
+    filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.1)); /* Opcional: profundidad al logo */
+}
+
+.skill-name {
+    font-weight: 800; /* Extra negrita para estilo neobrutalista */
+    font-size: 1.1rem;
+    text-transform: capitalize;
+}
