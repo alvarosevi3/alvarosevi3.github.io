@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Cosas Antes de Morir</title>
+    <style>
+        /* --- TEMA OSCURO Y CONFIGURACIÓN GENERAL --- */
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-color: #38bdf8;
+            --accent-success: #10b981;
+            --border-color: #334155;
+            --filter-bg: #1e293b;
+            --overlay-bg: rgba(0, 0, 0, 0.9); /* Fondo oscuro para vistas ampliadas */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Ancho completo aprovechando el espacio para metas largas */
+        .container {
+            width: 100%;
+            max-width: 95%;
+            padding: 30px 20px;
+            box-sizing: border-box;
+        }
+
+        /* --- PERFIL PRINCIPAL --- */
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .profile-img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-color);
+            background-color: #334155;
+            margin-bottom: 15px;
+        }
+
+        .profile-bio {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 10px auto 0;
+            line-height: 1.5;
+        }
+
+        /* --- SECCIÓN DE FILTROS Y BOTÓN DE GALERÍA --- */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap; /* Asegura que en móviles se acomoden bien */
+        }
+
+        .filter-btn, .gallery-trigger-btn {
+            background-color: var(--filter-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover, .gallery-trigger-btn:hover {
+            border-color: var(--accent-color);
+        }
+
+        .filter-btn.active {
+            background-color: var(--accent-color);
+            color: #0f172a;
+            border-color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* Estilo especial para el botón que abre la galería */
+        .gallery-trigger-btn {
+            background-color: #334155;
+            border-color: #475569;
+        }
+
+        /* --- LISTA DE METAS --- */
+        .bucket-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .item-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: transform 0.15s, border-color 0.15s;
+        }
+
+        .item-card:hover {
+            border-color: #475569;
+        }
+
+        /* Cabecera del Desplegable */
+        .item-header {
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Estado visual del Checkbox estático */
+        .status-badge {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            border: 2px solid var(--text-muted);
+            margin-right: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+
+        .item-card.completed .status-badge {
+            background-color: var(--accent-success);
+            border-color: var(--accent-success);
+        }
+
+        .item-card.completed .status-badge::after {
+            content: "✓";
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .item-title {
+            flex-grow: 1;
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            padding-right: 15px;
+            word-break: break-word;
+        }
+
+        .item-card.completed .item-title {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+            color: var(--text-muted);
+        }
+
+        /* Contenido Desplegable animado */
+        .item-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: #131d31;
+            padding: 0 24px;
+        }
+
+        .item-card.open .item-content {
+            max-height: 2000px; 
+            padding: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .item-card.open .arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Grid de Imágenes y Texto (MANTENIDO COMO TU ORIGINAL) */
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .details-grid {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+
+        .notes-display {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #cbd5e1;
+            white-space: pre-wrap;
+        }
+
+        .images-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        /* Restaurado el estilo original de tus imágenes en las metas */
+        .meta-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        /* Zoom para Imagen Individual */
+        .meta-img.zoomed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: contain;
+            z-index: 1000;
+            background-color: var(--overlay-bg);
+            cursor: zoom-out;
+            margin: 0;
+            border: none;
+            border-radius: 0;
+        }
+
+        /* Ocultar elementos según filtro activo */
+        .item-card.hidden {
+            display: none !important;
+        }
+
+        /* --- MODAL DE LA REJILLA DE LA GALERÍA COMPLETA (Estilo Google Fotos) --- */
+        .gallery-panel-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            z-index: 1500;
+            overflow-y: auto;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        .gallery-panel-modal.open {
+            display: block;
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .gallery-title {
+            margin: 0;
+            font-size: 1.75rem;
+            color: var(--text-color);
+        }
+
+        .close-gallery-panel {
+            font-size: 2.5rem;
+            color: var(--text-muted);
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-gallery-panel:hover {
+            color: var(--text-color);
+        }
+
+        .gallery-grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .gallery-grid-container {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+        }
+
+        .gallery-item {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #1e293b;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        @media (min-width: 768px) {
+            .gallery-item {
+                height: 220px;
+            }
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Modal para ver una foto de la galería en grande */
+        .photo-viewer-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay-bg);
+            z-index: 2500; /* Por encima de la cuadrícula */
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+        }
+
+        .photo-viewer-modal.open {
+            display: flex;
+        }
+
+        .viewer-content {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .viewer-btn {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            font-size: 2rem;
+            padding: 12px 22px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.2s;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .viewer-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .prev-btn { left: 20px; }
+        .next-btn { right: 20px; }
+
+        .close-viewer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2.5rem;
+            color: white;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="profile-card">
+            <img id="profile-display" class="profile-img" src="./Imagenes/perfil.webp" alt="Mi Foto de Perfil">
+            <p class="profile-bio">Esta es mi lista personal de objetivos. Un registro estático de las 50 cosas que quiero vivir, experimentar y lograr.</p>
+            <p class="profile-bio">"Para cuando mire hacia atrás y sonría."</p>
+        </div>
+
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="filterList('all', this)">Todas</button>
+            <button class="filter-btn" onclick="filterList('todo', this)">Por hacer</button>
+            <button class="filter-btn" onclick="filterList('done', this)">Hechas</button>
+            <button class="gallery-trigger-btn" onclick="openGalleryPanel()">🖼️ Ver Galería</button>
+        </div>
+
+        <div id="bucket-list-container" class="bucket-list">
+            </div>
+
+    </div>
+
+    <div id="gallery-panel" class="gallery-section gallery-panel-modal">
+        <div class="gallery-header">
+            <h2 class="gallery-title">Galería de Recuerdos</h2>
+            <button class="close-gallery-panel" onclick="closeGalleryPanel()">×</button>
+        </div>
+        <div id="gallery-grid" class="gallery-grid-container">
+            </div>
+    </div>
+
+    <div id="photo-viewer" class="photo-viewer-modal">
+        <button class="close-viewer" onclick="closeViewer()">×</button>
+        <button class="viewer-btn prev-btn" onclick="prevImage()">&#10094;</button>
+        <img id="viewer-image" class="viewer-content" src="" alt="Imagen ampliada">
+        <button class="viewer-btn next-btn" onclick="nextImage()">&#10095;</button>
+    </div>
+
+    <script>
+        const bucketListItems = [
+            { id: 1, title: "Visitar las 7 maravillas del mundo", checked: false, text: "", img1: "", img2: "" },
+            { id: 2, title: "Escribir un libro o diario", checked: false, text: "", img1: "", img2: "" },
+            { id: 3, title: "Comprarme una casa", checked: false, text: "", img1: "", img2: "" },
+            { id: 4, title: "Vivir fuera de España", checked: false, text: "", img1: "", img2: "" },
+            { id: 5, title: "Nadar desnudo en la playa", checked: false, text: "", img1: "", img2: "" },
+            { id: 6, title: "Casarme con el amor de mi vida", checked: false, text: "", img1: "", img2: "" },
+            { id: 7, title: "Montar en helicóptero", checked: false, text: "", img1: "", img2: "" },
+            { id: 8, title: "Ver auroras boreales en persona", checked: false, text: "", img1: "", img2: "" },
+            { id: 9, title: "Ver un glaciar", checked: false, text: "", img1: "", img2: "" },
+            { id: 10, title: "Tirarme en paracaídas", checked: false, text: "", img1: "", img2: "" },
+            { id: 11, title: "Hacer puenting", checked: false, text: "", img1: "", img2: "" },
+            { id: 12, title: "Viajar a Japón", checked: false, text: "", img1: "", img2: "" },
+            { id: 13, title: "Visitar las cataratas del Niágara", checked: false, text: "", img1: "", img2: "" },
+            { id: 14, title: "Componer una canción", checked: false, text: "", img1: "", img2: "" },
+            { id: 15, title: "Mandar un mensaje en una botella", checked: false, text: "", img1: "", img2: "" },
+            { id: 16, title: "Adoptar una mascota", checked: false, text: "", img1: "", img2: "" },
+            { id: 17, title: "Hacer un viaje decidiendo el destino con una moneda", checked: false, text: "", img1: "", img2: "" },
+            { id: 18, title: "Participar en una carrera", checked: false, text: "", img1: "", img2: "" },
+            { id: 19, title: "Viajar solo", checked: false, text: "", img1: "", img2: "" },
+            { id: 20, title: "Hacer el Camino de Santiago", checked: false, text: "", img1: "", img2: "" },
+            { id: 21, title: "Crear algo que perdure en el tiempo más que yo", checked: false, text: "", img1: "", img2: "" },
+            { id: 22, title: "Encontrar un trébol de 4 hojas", checked: false, text: "", img1: "", img2: "" },
+            { id: 23, title: "Sacarme el carnet de conducir", checked: false, text: "", img1: "", img2: "" },
+            {
+                id: 24, 
+                title: "Comprarme un coche",
+                checked: true,
+                text: "Un BMW E46, una joyita la verdad.",
+                img1: "./Imagenes/23-1.jpg",
+                img2: "./Imagenes/23-2.jpg"
+            },
+            { id: 25, title: "Ver un tornado", checked: false, text: "", img1: "", img2: "" },
+            { id: 26, title: "Montarme en un coche haciendo rally", checked: false, text: "", img1: "", img2: "" },
+            { id: 27, title: "Hacer un 'simpa'", checked: false, text: "", img1: "", img2: "" },
+            { id: 28, title: "Resolver un cubo de Rubik", checked: false, text: "", img1: "", img2: "" },
+            { id: 29, title: "Hacer un viaje en autocaravana", checked: false, text: "", img1: "", img2: "" },
+            { id: 30, title: "Salir en una película", checked: false, text: "", img1: "", img2: "" },
+            { id: 31, title: "Sacarme el carnet de moto", checked: false, text: "", img1: "", img2: "" },
+            { id: 32, title: "Donar sangre", checked: false, text: "", img1: "", img2: "" },
+            { id: 33, title: "Colarme en una boda", checked: false, text: "", img1: "", img2: "" },
+            { id: 34, title: "Probar un arma de fuego", checked: false, text: "", img1: "", img2: "" },
+            { id: 35, title: "Tirar un dardo en un mapa y viajar", checked: false, text: "", img1: "", img2: "" },
+            { id: 36, title: "Ir a un concierto de mi artista favorito", checked: false, text: "", img1: "", img2: "" },
+            { id: 37, title: "Aprender a tocar un instrumento", checked: false, text: "", img1: "", img2: "" },
+            { id: 38, title: "Ir a Tomorrowland", checked: false, text: "", img1: "", img2: "" },
+            { id: 39, title: "Hacer todas las recetas de un libro de cocina", checked: false, text: "", img1: "", img2: "" },
+            { id: 40, title: "Ir a un restaurante con una estrella Michelin", checked: false, text: "", img1: "", img2: "" },
+            { id: 41, title: "Ir a Irlanda en San Patricio", checked: false, text: "", img1: "", img2: "" },
+            { id: 42, title: "Viajar a Las Vegas", checked: false, text: "", img1: "", img2: "" },
+            { id: 43, title: "Hacer un trío", checked: false, text: "", img1: "", img2: "" },
+            { id: 44, title: "Ver una lluvia de estrellas", checked: false, text: "", img1: "", img2: "" },
+            { id: 45, title: "Ir de acampada", checked: false, text: "", img1: "", img2: "" },
+            { id: 46, title: "Cumplir mi fantasía sexual", checked: false, text: "", img1: "", img2: "" },
+        ];
+
+        // Rellenar automáticamente hasta las 50 metas
+        for (let i = bucketListItems.length + 1; i <= 50; i++) {
+            bucketListItems.push({
+                id: i,
+                title: `Meta por completar`,
+                checked: false,
+                text: "Espacio reservado para los detalles de tu meta cuando la redactes en el archivo HTML.",
+                img1: "",
+                img2: ""
+            });
+        }
+
+        // --- RENDERIZADO DE LA LISTA ---
+        const container = document.getElementById('bucket-list-container');
+
+        function renderList() {
+            container.innerHTML = '';
+            
+            bucketListItems.forEach(item => {
+                const card = document.createElement('div');
+                card.className = `item-card ${item.checked ? 'completed' : ''}`;
+                card.setAttribute('data-status', item.checked ? 'done' : 'todo');
+
+                const hasImages = item.img1 || item.img2;
+                let imagesHTML = '';
+
+                if (hasImages) {
+                    imagesHTML = `
+                        <div class="images-container">
+                            ${item.img1 ? `<img class="meta-img" src="${item.img1}" alt="Foto 1">` : '<div></div>'}
+                            ${item.img2 ? `<img class="meta-img" src="${item.img2}" alt="Foto 2">` : '<div></div>'}
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="item-header">
+                        <div class="status-badge"></div>
+                        <div class="item-title">${item.id}. ${item.title}</div>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="item-content">
+                        <div class="details-grid" style="${hasImages ? '' : 'grid-template-columns: 1fr;'}">
+                            <div class="notes-display">${item.text || '<i>Meta sin completar.</i>'}</div>
+                            ${imagesHTML}
+                        </div>
+                    </div>
+                `;
+
+                card.querySelector('.item-header').addEventListener('click', () => {
+                    card.classList.toggle('open');
+                });
+
+                // Zoom individual al hacer click en la foto de la meta desplegada
+                const images = card.querySelectorAll('.meta-img');
+                images.forEach(img => {
+                    img.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Evita que se cierre el acordeón de la meta
+                        toggleZoom(img);
+                    });
+                });
+
+                container.appendChild(card);
+            });
+        }
+
+        // Control del Zoom Individual
+        function toggleZoom(imgElement) {
+            if (imgElement.classList.contains('zoomed')) {
+                imgElement.classList.remove('zoomed');
+            } else {
+                const currentZoomed = document.querySelector('.meta-img.zoomed');
+                if (currentZoomed) currentZoomed.classList.remove('zoomed');
+                
+                imgElement.classList.add('zoomed');
+
+                const closeZoomHandler = (e) => {
+                    if (e.target !== imgElement || imgElement.classList.contains('zoomed')) {
+                        imgElement.classList.remove('zoomed');
+                        window.removeEventListener('click', closeZoomHandler);
+                    }
+                };
+                setTimeout(() => { window.addEventListener('click', closeZoomHandler); }, 10);
+            }
+        }
+
+        // Sistema de Filtros
+        function filterList(filter, button) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            const cards = document.querySelectorAll('.item-card');
+            cards.forEach(card => {
+                card.classList.remove('open');
+                const status = card.getAttribute('data-status');
+                
+                if (filter === 'all') card.classList.remove('hidden');
+                else if (filter === status) card.classList.remove('hidden');
+                else card.classList.add('hidden');
+            });
+        }
+
+        // --- LÓGICA DE LA GALERÍA ESTILO GOOGLE FOTOS ---
+        let galleryImages = [];
+        let currentModalImageIndex = 0;
+
+        const galleryPanel = document.getElementById('gallery-panel');
+        const photoViewer = document.getElementById('photo-viewer');
+        const viewerImg = document.getElementById('viewer-image');
+
+        // Abrir la pantalla de la galería completa
+        function openGalleryPanel() {
+            const gridContainer = document.getElementById('gallery-grid');
+            gridContainer.innerHTML = '';
+            galleryImages = [];
+
+            // Extraer las fotos existentes en los objetos
+            bucketListItems.forEach(item => {
+                if (item.img1 && item.img1.trim() !== "") galleryImages.push(item.img1);
+                if (item.img2 && item.img2.trim() !== "") galleryImages.push(item.img2);
+            });
+
+            if (galleryImages.length === 0) {
+                gridContainer.innerHTML = '<p style="text-align:center; color:var(--text-muted); grid-column: 1 / -1; padding: 20px;">Aún no has añadido fotos a tus metas.</p>';
+            } else {
+                galleryImages.forEach((imgSrc, index) => {
+                    const img = document.createElement('img');
+                    img.src = imgSrc;
+                    img.alt = `Recuerdo ${index + 1}`;
+                    img.className = 'gallery-item';
+                    img.addEventListener('click', () => openViewer(index));
+                    gridContainer.appendChild(img);
+                });
+            }
+
+            galleryPanel.classList.add('open');
+            document.body.style.overflow = 'hidden'; // Detiene el scroll de fondo
+        }
+
+        function closeGalleryPanel() {
+            galleryPanel.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Abrir el visor (Foto ampliada de la galería)
+        function openViewer(index) {
+            currentModalImageIndex = index;
+            viewerImg.src = galleryImages[currentModalImageIndex];
+            photoViewer.classList.add('open');
+
+            // Cerrar si hace click en el fondo oscuro
+            photoViewer.onclick = (e) => {
+                if (e.target === photoViewer) closeViewer();
+            };
+        }
+
+        function closeViewer() {
+            photoViewer.classList.remove('open');
+        }
+
+        function nextImage() {
+            currentModalImageIndex = (currentModalImageIndex + 1) % galleryImages.length;
+            viewerImg.src = galleryImages[currentModalImageIndex];
+        }
+
+        function prevImage() {
+            currentModalImageIndex = (currentModalImageIndex - 1 + galleryImages.length) % galleryImages.length;
+            viewerImg.src = galleryImages[currentModalImageIndex];
+        }
+
+        // Atajos de teclado para el visor
+        document.addEventListener('keydown', (e) => {
+            if (photoViewer.classList.contains('open')) {
+                if (e.key === 'ArrowRight') nextImage();
+                if (e.key === 'ArrowLeft') prevImage();
+                if (e.key === 'Escape') closeViewer();
+            } else if (galleryPanel.classList.contains('open') && e.key === 'Escape') {
+                closeGalleryPanel();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', renderList);
+    </script>
+</body>
+</html>
